@@ -1,0 +1,14 @@
+//Classes
+
+class Linked_List_Node {
+	
+}
+
+class Node{
+	public:
+	double x; //x-coordinate
+	double y; //y-coordinate
+	bool is_path; //Boolean that identifies whether this node is part of the final path (set by Djikstra)
+	Node neighbours; //Vector array of neighbours
+	Node visi_neighbours; //Vector array of neighbours in the visibility graph
+	}
