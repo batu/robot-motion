@@ -1,13 +1,6 @@
 #include<iostream>
 using namespace std;
 
-class Node{
-public:
-	double x;
-	double y;
-	bool is_path;
-};
-
 bool compareAngleBigger(	double xbase, double ybase,
 							double x1,    double y1,
 							double x2,    double y2)
@@ -18,7 +11,6 @@ bool compareAngleBigger(	double xbase, double ybase,
 	relx2 = x2 - xbase;
 	rely1 = y1 - ybase;
 	rely2 = y2 - ybase;
-
 
 		 if(relx1 > 0 and rely1 > 0) {quadrant1 = 1;}
 	else if(relx1 < 0 and rely1 > 0) {quadrant1 = 2;}
@@ -36,8 +28,7 @@ bool compareAngleBigger(	double xbase, double ybase,
 			 if ((relx1 / rely1) > (relx2 / rely2))  { return true  ;}
 		else if ((relx1 / rely1) < (relx2 / rely2))  { return false ;}
 
-
-	cout << "Wat?";}
+	}
 }
 
 int main() {
