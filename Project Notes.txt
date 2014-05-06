@@ -25,3 +25,13 @@ class Graph{
     // Take the start and end as the obstacle.
     // Consider keeping a visible-angle on each node
 	// First check the quadrants then check the raito.
+	
+	
+class AVL{
+
+    void compare;
+}
+
+sort a vector of sorted angles. Vector of pointers.
+4 quadrants, first step compare quadrants the second step is to compare values.
+
