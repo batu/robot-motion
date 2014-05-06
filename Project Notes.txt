@@ -20,14 +20,37 @@ main() {
 //Classes
 
 class Linked_List_Node {
-	
 }
 
 class Node{
 	public:
+	
 	double x; //x-coordinate
 	double y; //y-coordinate
 	bool is_path; //Boolean that identifies whether this node is part of the final path (set by Djikstra)
-	Node neighbours; //Vector array of neighbours
+	Node* neighbours; // pointers to the neighbours. Doule linked list.
 	Node visi_neighbours; //Vector array of neighbours in the visibility graph
+	
 	}
+	
+class Graph{
+    public:
+  
+    vector Node* 
+    // Dijkstra can be part of this
+}
+
+
+    // Take the start and end as the obstacle.
+    // Consider keeping a visible-angle on each node
+	// First check the quadrants then check the raito.
+	
+	
+class AVL{
+
+    void compare;
+}
+
+sort a vector of sorted angles. Vector of pointers.
+4 quadrants, first step compare quadrants the second step is to compare values.
+
