@@ -1,3 +1,22 @@
+//Interface
+
+main() {
+	double Sx; //Start x coordinate
+	double Sy; //Start y coordinate
+	double Ex; //End x coordinate
+	double Ey; //End y coordinate
+
+	/*The input will take the form of:
+
+		1 Sx Sy //Start x and y coordinate
+		2 Ex Ey //End x and y coordinate
+		3 3 2 5 9 21 2 31 7 // the coordinates of an obstacle - arranged in order x y x y x y x y
+
+	vector < vector <double>> Input_Graph;
+}
+
+
+
 //Classes
 
 class Linked_List_Node {
