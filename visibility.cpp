@@ -1,5 +1,8 @@
 #include<iostream>
+#include<cmath>
 using namespace std;
+
+
 
 bool compareAngleBigger(	double xbase, double ybase,
 							double x1,    double y1,
@@ -31,15 +34,22 @@ bool compareAngleBigger(	double xbase, double ybase,
 	}
 }
 
-bool compareDistance( double xbase, double ybase,
+bool compareDistanceBigger( double xbase, double ybase,
 					  double x1, 	double y1,
 					  double x2, 	double y2)
 {
-	distance1 = sqrt(pow((xbase - x1),2) + pow((ybase - y1),2))
-	distance2 = sqrt(pow((xbase - x2),2) + pow((ybase - y2),2))
 
-	cout << distance1 << endl;
-	cout << distance2 << endl;
+	double distance1, distance2;
+
+	distance1 = sqrt(pow((xbase - x1),2) + pow((ybase - y1),2));
+	distance2 = sqrt(pow((xbase - x2),2) + pow((ybase - y2),2));
+
+	if (distance1 > distance2) {
+		return true;
+	} else {
+		return false;
+	}
+
 }
 
 int main() {
@@ -47,7 +57,7 @@ int main() {
 long x1 = 0, y1 = 0, x2 = 1, y2 = 4, x3 = 10, y3 = 4;
 cout << compareAngleBigger(x1,y1,x2,y2,x3,y3);
 
-compareDistance(x1,y1,x2,y2,x3,y3)
+cout << compareDistanceBigger(x1,y1,x2,y2,x3,y3);
 }
 
 

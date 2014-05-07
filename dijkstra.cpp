@@ -78,21 +78,6 @@ std::list<vertex_t> DijkstraGetShortestPathTo(
     return path;
 }
 
-// vector will be changed with the name of the output vector that we will be
-// using.
-
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// Dijkastra interface.
-
-
-/*	int listLength = vector.size();
-	adjacency_list_t adjacency_list(listLength);
-
-for(int i=0; i < vector.size(); i++){
-	for(int i=0; j < vector[i].size(); i++){
-	adjacency_list[i].push_back(neighbor(vector[i][j],vector[i][j]->distance));
-}}*/
 
 int main()
 {
