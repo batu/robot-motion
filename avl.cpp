@@ -32,12 +32,11 @@ class avlTree
         avl_node *rl_rotation(avl_node *);
         avl_node* balance(avl_node *);
         avl_node* insert(avl_node *, int );
+        avl_node* findMin(avl_node*);
         void display(avl_node *, int);
         void inorder(avl_node *);
         void preorder(avl_node *);
         void postorder(avl_node *);
-        avl_node* findMin(avl_node *);
-        avl_node
         avlTree()
         {
             root = NULL;
@@ -61,7 +60,8 @@ int main()
         cout<<"3.InOrder traversal"<<endl;
         cout<<"4.PreOrder traversal"<<endl;
         cout<<"5.PostOrder traversal"<<endl;
-        cout<<"6.Exit"<<endl;
+        cout<<"6.Find the minimum - Batu"<<endl;
+        cout<<"7.Exit"<<endl;
         cout<<"Enter your Choice: ";
         cin>>choice;
         switch(choice)
@@ -96,6 +96,13 @@ int main()
             cout<<endl;
             break;
         case 6:
+            cout<<"Minimum:"<<endl;
+            int x;
+            x = avl.findMin(root)->data;
+            cout << x;
+            cout<<endl;
+            break;
+        case 7:
             exit(1);
             break;
         default:
@@ -234,7 +241,7 @@ avl_node *avlTree::insert(avl_node *root, int value)
 
 
 // Finding the Smallest
-avl_node avlTree::findMin(avl_node* root)
+avl_node* avlTree::findMin(avl_node* root)
 {
 	if (root == NULL)
 	{
@@ -246,11 +253,12 @@ avl_node avlTree::findMin(avl_node* root)
 		while(root ->left !=NULL)
 		{
 			root = root->left;
-			//return p;
+			//return root;
 		}
 		return root;
 	}
-
+	return root;
+}
 /*
  * Display AVL Tree
  */
@@ -305,6 +313,3 @@ void avlTree::postorder(avl_node *tree)
     postorder ( tree ->right );
     cout<<tree->data<<"  ";
 }
-
-
-
