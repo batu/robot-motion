@@ -55,7 +55,6 @@ bool compareDistanceBigger( double xbase, double ybase,
 int main() {
 
 long x1 = 0, y1 = 0, x2 = 1, y2 = 4, x3 = 10, y3 = 4;
-cout << compareAngleBigger(x1,y1,x2,y2,x3,y3);
 
 cout << compareDistanceBigger(x1,y1,x2,y2,x3,y3);
 }

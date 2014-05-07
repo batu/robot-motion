@@ -26,6 +26,7 @@ struct neighbor {
 typedef std::vector<std::vector<neighbor> > adjacency_list_t;
 
 
+
 void DijkstraComputePaths(vertex_t source,
                           const adjacency_list_t &adjacency_list,
                           std::vector<weight_t> &min_distance,
@@ -67,6 +68,23 @@ void DijkstraComputePaths(vertex_t source,
         }
     }
 }
+
+
+// vector will be changed with the name of the output vector that we will be
+// using.
+
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Dijkastra interface.
+
+
+/*	int listLength = vector.size();
+	adjacency_list_t adjacency_list(listLength);
+
+for(int i=0; i < vector.size(); i++){
+	for(int i=0; j < vector[i].size(); i++){
+ 	adjacency_list[i].push_back(neighbor(vector[i][j],vector[i][j]->distance));
+}}*/
 
 
 std::list<vertex_t> DijkstraGetShortestPathTo(
