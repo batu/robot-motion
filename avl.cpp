@@ -36,6 +36,8 @@ class avlTree
         void inorder(avl_node *);
         void preorder(avl_node *);
         void postorder(avl_node *);
+        avl_node* findMin(avl_node *);
+        avl_node
         avlTree()
         {
             root = NULL;
@@ -230,6 +232,25 @@ avl_node *avlTree::insert(avl_node *root, int value)
     return root;
 }
 
+
+// Finding the Smallest
+avl_node avlTree::findMin(avl_node* root)
+{
+	if (root == NULL)
+	{
+		cout<<"The tree is empty\n"<<endl;
+		return NULL;
+	}
+	else
+	{
+		while(root ->left !=NULL)
+		{
+			root = root->left;
+			//return p;
+		}
+		return root;
+	}
+
 /*
  * Display AVL Tree
  */
@@ -284,3 +305,6 @@ void avlTree::postorder(avl_node *tree)
     postorder ( tree ->right );
     cout<<tree->data<<"  ";
 }
+
+
+
