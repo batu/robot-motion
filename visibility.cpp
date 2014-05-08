@@ -50,13 +50,7 @@ vector<double> buildGraph(vector<double> * start, vector<double> * end) {
 		}
 	}
 }
-//Do the sweep by looking at the angle.
-//First take the information and create nodes from them
-//Input type
-int main() {
-	vector<double> start, end;
 
-	buildGraph(&start, &end);
 
 
 bool compareAngleBigger(	double xbase, double ybase,
@@ -107,11 +101,12 @@ bool compareDistanceBigger( double xbase, double ybase,
 
 }
 
+//Do the sweep by looking at the angle.
+//First take the information and create nodes from them
+//Input type
 int main() {
+	vector<double> start, end;
 
-long x1 = 0, y1 = 0, x2 = 1, y2 = 4, x3 = 10, y3 = 4;
-
-cout << compareDistanceBigger(x1,y1,x2,y2,x3,y3);
-}
+	buildGraph(&start, &end);
 
 
