@@ -1,12 +1,33 @@
 #include<iostream>
 #include<cmath>
+#include<sstream>
+#include<stdexcept>
 #include<fstream>
 #include<vector>
 #include<string>
 #include<stdlib.h>
 #include<cstdlib>
-using namespace std;
 
+using namespace std;
+////////////////////////////////////////////////////////////////////////////////
+//Function to convert strings to doubles.
+////////////////////////////////////////////////////////////////////////////////
+class BadConversion : public std::runtime_error {
+public:
+  BadConversion(std::string const& s)
+    : std::runtime_error(s)
+    { }
+};
+
+inline double convertToDouble(std::string const& s)
+{
+  std::istringstream i(s);
+  double x;
+  if (!(i >> x))
+    throw BadConversion("convertToDouble(\"" + s + "\")");
+  return x;
+}
+////////////////////////////////////////////////////////////////////////////////
 class Node{
 public:
 	double x;
@@ -39,16 +60,20 @@ vector<double> buildGraph(vector<double> * start, vector<double> * end) {
 	string token;
 	for (int i = 0; i < file.size(); i++){
 		string thisLine = file[i];
+		inputGraph.push_back(vector <double>());
 		while((pos = thisLine.find(delimiter)) != std::string::npos){
 			token = thisLine.substr(0, pos);
 			cout << "reached here" << endl;
 			cout << token << endl;
 			cout << "reached here" << endl;
-			cout << token << endl;
-			cout << "reached here too" << endl;
+			inputGraph[i].push_back(convertToDouble(token));
+			cout << thisLine << endl;
 			thisLine.erase(0, pos + delimiter.length());
+			cout << thisLine << endl;
 		}
+		inputGraph[i].push_back(convertToDouble(thisLine));
 	}
+
 }
 //Do the sweep by looking at the angle.
 //First take the information and create nodes from them
@@ -57,7 +82,7 @@ int main() {
 	vector<double> start, end;
 
 	buildGraph(&start, &end);
-
+}
 
 bool compareAngleBigger(	double xbase, double ybase,
 							double x1,    double y1,
@@ -105,13 +130,6 @@ bool compareDistanceBigger( double xbase, double ybase,
 		return false;
 	}
 
-}
-
-int main() {
-
-long x1 = 0, y1 = 0, x2 = 1, y2 = 4, x3 = 10, y3 = 4;
-
-cout << compareDistanceBigger(x1,y1,x2,y2,x3,y3);
 }
 
 
