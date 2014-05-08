@@ -28,6 +28,7 @@ inline double convertToDouble(std::string const& s)
   return x;
 }
 ////////////////////////////////////////////////////////////////////////////////
+
 class Node{
 public:
 	double x;
@@ -35,7 +36,7 @@ public:
 	vector <Node*> adjNode;
 };
 
-vector<double> buildGraph(vector<double> * start, vector<double> * end) {
+void buildGraph(Node * start, Node * end, vector<Node> * nodeList) {
 	string line;
 	vector<vector<double> > inputGraph;
 	vector<string> file;
@@ -69,69 +70,87 @@ vector<double> buildGraph(vector<double> * start, vector<double> * end) {
 			inputGraph[i].push_back(convertToDouble(token));
 			cout << thisLine << endl;
 			thisLine.erase(0, pos + delimiter.length());
-			cout << thisLine << endl;
 		}
 		inputGraph[i].push_back(convertToDouble(thisLine));
 	}
-
-}
-
-bool compareAngleBigger(	double xbase, double ybase,
-							double x1,    double y1,
-							double x2,    double y2)
-{
-	double relx1, relx2, rely1, rely2;
-	int quadrant1, quadrant2;
-	relx1 = x1 - xbase;
-	relx2 = x2 - xbase;
-	rely1 = y1 - ybase;
-	rely2 = y2 - ybase;
-
-		 if(relx1 > 0 and rely1 > 0) {quadrant1 = 1;}
-	else if(relx1 < 0 and rely1 > 0) {quadrant1 = 2;}
-	else if(relx1 < 0 and rely1 < 0) {quadrant1 = 3;}
-	else if(relx1 > 0 and rely1 < 0) {quadrant1 = 4;}
-
-		 if(relx2 > 0 and rely2 > 0) {quadrant2 = 1;}
-	else if(relx2 < 0 and rely2 > 0) {quadrant2 = 2;}
-	else if(relx2 < 0 and rely2 < 0) {quadrant2 = 3;}
-	else if(relx2 > 0 and rely2 < 0) {quadrant2 = 4;}
-
-	if ( quadrant1 > quadrant2)	{ return true  ;}
-	if ( quadrant2 > quadrant1)	{ return false ;}
-	if (quadrant1 == quadrant2){
-			 if ((relx1 / rely1) > (relx2 / rely2))  { return true  ;}
-		else if ((relx1 / rely1) < (relx2 / rely2))  { return false ;}
-
+	///////Add values to start and end nodes/////
+	start->x = inputGraph[0][0];
+	start->y = inputGraph[0][1];
+	inputGraph.erase(inputGraph.begin());
+	end->x = inputGraph [1][0];
+	end->y = inputGraph [1][1];
+	inputGraph.erase(inputGraph.begin());
+	////// Begin creating nodes ////
+	for (int j = 0; j < inputGraph.size();j++){
+		for (int k = 0; k < (inputGraph[j].size()-1); k+=2){
+			Node *newNode;
+			newNode = new Node;
+			newNode->x = inputGraph[j][k];
+			newNode->y = inputGraph[j][k+1];
+			nodeList->push_back(*newNode);
+		}
 	}
 }
 
-bool compareDistanceBigger( double xbase, double ybase,
-					  double x1, 	double y1,
-					  double x2, 	double y2)
-{
-
-	double distance1, distance2;
-
-	distance1 = sqrt(pow((xbase - x1),2) + pow((ybase - y1),2));
-	distance2 = sqrt(pow((xbase - x2),2) + pow((ybase - y2),2));
-
-	if (distance1 > distance2) {
-		return true;
-	} else {
-		return false;
-	}
-
-}
+//bool compareAngleBigger(	double xbase, double ybase,
+//							double x1,    double y1,
+//							double x2,    double y2)
+//{
+//	double relx1, relx2, rely1, rely2;
+//	int quadrant1, quadrant2;
+//	relx1 = x1 - xbase;
+//	relx2 = x2 - xbase;
+//	rely1 = y1 - ybase;
+//	rely2 = y2 - ybase;
+//
+//		 if(relx1 > 0 and rely1 > 0) {quadrant1 = 1;}
+//	else if(relx1 < 0 and rely1 > 0) {quadrant1 = 2;}
+//	else if(relx1 < 0 and rely1 < 0) {quadrant1 = 3;}
+//	else if(relx1 > 0 and rely1 < 0) {quadrant1 = 4;}
+//
+//		 if(relx2 > 0 and rely2 > 0) {quadrant2 = 1;}
+//	else if(relx2 < 0 and rely2 > 0) {quadrant2 = 2;}
+//	else if(relx2 < 0 and rely2 < 0) {quadrant2 = 3;}
+//	else if(relx2 > 0 and rely2 < 0) {quadrant2 = 4;}
+//
+//	if ( quadrant1 > quadrant2)	{ return true  ;}
+//	if ( quadrant2 > quadrant1)	{ return false ;}
+//	if (quadrant1 == quadrant2){
+//			 if ((relx1 / rely1) > (relx2 / rely2))  { return true  ;}
+//		else if ((relx1 / rely1) < (relx2 / rely2))  { return false ;}
+//
+//	}
+//}
+//
+//bool compareDistanceBigger( double xbase, double ybase,
+//					  double x1, 	double y1,
+//					  double x2, 	double y2)
+//{
+//
+//	double distance1, distance2;
+//
+//	distance1 = sqrt(pow((xbase - x1),2) + pow((ybase - y1),2));
+//	distance2 = sqrt(pow((xbase - x2),2) + pow((ybase - y2),2));
+//
+//	if (distance1 > distance2) {
+//		return true;
+//	} else {
+//		return false;
+//	}
+//
+//}
 
 
 //Do the sweep by looking at the angle.
 //First take the information and create nodes from them
 //Input type
+
 int main() {
-	vector<double> start, end;
+	vector<Node> nodeList;
+	Node start, end;
 
-	buildGraph(&start, &end);
-
+	buildGraph(&start, &end, &nodeList);
+	cout << nodeList[0].x << endl;
+	cout << nodeList[2].x << endl;
 }
 
