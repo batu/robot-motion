@@ -54,3 +54,69 @@ class AVL{
 sort a vector of sorted angles. Vector of pointers.
 4 quadrants, first step compare quadrants the second step is to compare values.
 
+
+
+
+###############################################################################
+------------------------- FUNCTIONS -------------------------------------------
+###############################################################################
+
+bool compareAngleBigger(    double xbase, double ybase,
+                            double x1,    double y1,
+                            double x2,    double y2)
+                            
+
+bool compareDistanceBigger( double xbase, double ybase,
+                            double x1,    double y1,
+                            double x2,    double y2)
+
+
+findPath( double sx, double sy, double tx, double ty, Node inputVector, Node* outputVector)
+
+###############################################################################
+------------------------------ MAÝN -------------------------------------------
+###############################################################################
+
+Main
+
+1) Create the nodes with x and y values stored as members.
+2) Create a graph, add nodes to the graph using a member function. graph.add(&node)
+3) Store connections as two connected nodes in graph as a vector.
+3) On each node run visibility and put the output of visibile nodes into the 
+visiblity graph.
+4) Dijsktra on the visilibty graph to find the shortest path.
+
+Visiblity: 
+
+1) Sort all the nodes based on their angles using rise over run with the help of functor
+and the compareAngleBigger function. Add them into a vector.
+2) Ýterate through the vector adding the edges (stored in respective nodes) 
+into the AVL tree using ComprateDistance as the comparrison.
+3) Take the left most element of the AVL tree (edge) and put the nodes that 
+are part of that edge into the output Vector.
+4) Build a visibility graph from the output vector of all nodes, adding each 
+connection not repeating.
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
