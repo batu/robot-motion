@@ -6,22 +6,22 @@ visibilityGraph: avl.o classes.o visibility.o
 
 
 avl: avl.o
-	g++ avl.o -o avl.exe
+	g++ -std=c++11 avl.o -o avl.exe
 
 avl.o: avl.cpp
 	g++ -c avl.cpp
 
 classes: classes.o
-	g++ classes.o -o classes.exe
+	g++ -std=c++11 classes.o -o classes.exe
 
 classes.o:classes.cpp
 	g++ -c classes.cpp
 
 visibility: visibility.o
-	g++ visibility.o -o visibility.exe
+	g++ -std=c++11 visibility.o -o visibility.exe
 
 visibility.o:visibility.cpp
-	g++ -c visibility.cpp
+	g++ -std=c++11 -c visibility.cpp
 
 runAvl: avl.exe
 	./avl.exe
