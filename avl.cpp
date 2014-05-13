@@ -8,14 +8,43 @@
 #define pow2(n) (1 << (n))
 using namespace std;
 
+
+bool compareDistanceBigger( double xbase, double ybase,
+					  double x1, 	double y1,
+					  double x2, 	double y2)
+{
+
+	double distance1, distance2;
+
+	distance1 = sqrt(pow((xbase - x1),2) + pow((ybase - y1),2));
+	distance2 = sqrt(pow((xbase - x2),2) + pow((ybase - y2),2));
+
+	if (distance1 > distance2) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 /*
  * Node Declaration
  */
-struct avl_node
+class Node{
+public:
+	double x;
+	double y;
+	vector <Node*> adjNode;
+};
+
+class avlNode
 {
+public:
+	vector<Node>* edge;
+	Node* node;
     int data;
-    struct avl_node *left;
-    struct avl_node *right;
+    struct avlNode *left;
+    struct avlNode *right;
+
 }*root;
 
 /*
@@ -24,21 +53,22 @@ struct avl_node
 class avlTree
 {
     public:
-        int height(avl_node *);
-        int diff(avl_node *);
-        avl_node *rr_rotation(avl_node *);
-        avl_node *ll_rotation(avl_node *);
-        avl_node *lr_rotation(avl_node *);
-        avl_node *rl_rotation(avl_node *);
-        avl_node* balance(avl_node *);
-        avl_node* insert(avl_node *, int );
-        void display(avl_node *, int);
-        void inorder(avl_node *);
-        void preorder(avl_node *);
-        void postorder(avl_node *);
-        avlTree()
+        int height(avlNode *);
+        int diff(avlNode *);
+        avlNode *rr_rotation(avlNode *);
+        avlNode *ll_rotation(avlNode *);
+        avlNode *lr_rotation(avlNode *);
+        avlNode *rl_rotation(avlNode *);
+        avlNode* balance(avlNode *);
+        avlNode* insert(avlNode *, Node*);
+        avlNode* findMin(avlNode*);
+        void display(avlNode *, int);
+        avlNode* delet(avlNode*, int);
+        Node* anchorNode;
+        avlTree(Node* baseNode)
         {
-            root = NULL;
+        	anchorNode = baseNode;
+        	root = NULL;
         }
 };
 
@@ -47,8 +77,31 @@ class avlTree
  */
 int main()
 {
-    int choice, item;
-    avlTree avl;
+	Node *placeHolderEdge1, *placeHolderEdge2;
+	Node *placeHolderBase;
+
+
+	// ERROR IS HERE //
+
+//	placeHolderEdge1->x = 10;
+//	placeHolderEdge1->y = 10;
+//
+//	placeHolderEdge2->x = 5;
+//	placeHolderEdge2->y = 5;
+
+//	placeHolderBase->x = 0;
+//	placeHolderBase->y = 0;
+//	placeHolderBase->adjNode.push_back(placeHolderEdge1);
+//	placeHolderBase->adjNode.push_back(placeHolderEdge2);
+
+
+
+    int choice, key;
+    avlTree avl(placeHolderBase);
+
+    Node* item;
+
+
     while (1)
     {
         cout<<"\n---------------------"<<endl;
@@ -59,15 +112,16 @@ int main()
         cout<<"3.InOrder traversal"<<endl;
         cout<<"4.PreOrder traversal"<<endl;
         cout<<"5.PostOrder traversal"<<endl;
-        cout<<"6.Exit"<<endl;
+        cout<<"6.Find the minimum - Batu"<<endl;
+        cout<<"7.Delete and pray v2 - Batu"<<endl;
+        cout<<"8.Exit"<<endl;
         cout<<"Enter your Choice: ";
         cin>>choice;
         switch(choice)
         {
         case 1:
             cout<<"Enter value to be inserted: ";
-            cin>>item;
-            root = avl.insert(root, item);
+//            root = avl.insert(root, item);
             break;
         case 2:
             if (root == NULL)
@@ -80,20 +134,29 @@ int main()
             break;
         case 3:
             cout<<"Inorder Traversal:"<<endl;
-            avl.inorder(root);
             cout<<endl;
             break;
         case 4:
             cout<<"Preorder Traversal:"<<endl;
-            avl.preorder(root);
             cout<<endl;
             break;
         case 5:
             cout<<"Postorder Traversal:"<<endl;
-            avl.postorder(root);
             cout<<endl;
             break;
         case 6:
+            cout<<"Minimum:"<<endl;
+            int x;
+            x = avl.findMin(root)->data;
+            cout << x;
+            cout<<endl;
+            break;
+        case 7:
+            cout<<"Enter value to be deleted: ";
+            cin>>key;
+            avl.delet(root, key);
+            break;
+        case 8:
             exit(1);
             break;
         default:
@@ -106,7 +169,7 @@ int main()
 /*
  * Height of AVL Tree
  */
-int avlTree::height(avl_node *temp)
+int avlTree::height(avlNode *temp)
 {
     int h = 0;
     if (temp != NULL)
@@ -122,7 +185,7 @@ int avlTree::height(avl_node *temp)
 /*
  * Height Difference
  */
-int avlTree::diff(avl_node *temp)
+int avlTree::diff(avlNode *temp)
 {
     int l_height = height (temp->left);
     int r_height = height (temp->right);
@@ -133,9 +196,9 @@ int avlTree::diff(avl_node *temp)
 /*
  * Right- Right Rotation
  */
-avl_node *avlTree::rr_rotation(avl_node *parent)
+avlNode *avlTree::rr_rotation(avlNode *parent)
 {
-    avl_node *temp;
+    avlNode *temp;
     temp = parent->right;
     parent->right = temp->left;
     temp->left = parent;
@@ -144,9 +207,9 @@ avl_node *avlTree::rr_rotation(avl_node *parent)
 /*
  * Left- Left Rotation
  */
-avl_node *avlTree::ll_rotation(avl_node *parent)
+avlNode *avlTree::ll_rotation(avlNode *parent)
 {
-    avl_node *temp;
+    avlNode *temp;
     temp = parent->left;
     parent->left = temp->right;
     temp->right = parent;
@@ -156,9 +219,9 @@ avl_node *avlTree::ll_rotation(avl_node *parent)
 /*
  * Left - Right Rotation
  */
-avl_node *avlTree::lr_rotation(avl_node *parent)
+avlNode *avlTree::lr_rotation(avlNode *parent)
 {
-    avl_node *temp;
+    avlNode *temp;
     temp = parent->left;
     parent->left = rr_rotation (temp);
     return ll_rotation (parent);
@@ -167,9 +230,9 @@ avl_node *avlTree::lr_rotation(avl_node *parent)
 /*
  * Right- Left Rotation
  */
-avl_node *avlTree::rl_rotation(avl_node *parent)
+avlNode *avlTree::rl_rotation(avlNode *parent)
 {
-    avl_node *temp;
+    avlNode *temp;
     temp = parent->right;
     parent->right = ll_rotation (temp);
     return rr_rotation (parent);
@@ -178,7 +241,7 @@ avl_node *avlTree::rl_rotation(avl_node *parent)
 /*
  * Balancing AVL Tree
  */
-avl_node *avlTree::balance(avl_node *temp)
+avlNode *avlTree::balance(avlNode *temp)
 {
     int bal_factor = diff (temp);
     if (bal_factor > 1)
@@ -201,33 +264,64 @@ avl_node *avlTree::balance(avl_node *temp)
 /*
  * Insert Element into the tree
  */
-avl_node *avlTree::insert(avl_node *root, int value)
-{
-    if (root == NULL)
-    {
-        root = new avl_node;
-        root->data = value;
-        root->left = NULL;
-        root->right = NULL;
-        return root;
-    }
-    else if (value < root->data)
-    {
-        root->left = insert(root->left, value);
-        root = balance (root);
-    }
-    else if (value >= root->data)
-    {
-        root->right = insert(root->right, value);
-        root = balance (root);
-    }
-    return root;
-}
 
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////// 						INSERT                        /////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+//avlNode *avlTree::insert(avlNode *root, Node* newNode)
+//{
+//    if (root == NULL)
+//    {
+//        root = new avlNode;
+//        root->node = newNode;
+//        root->left = NULL;
+//        root->right = NULL;
+//        return root;
+//    }
+//    else if (compareDistanceBigger( this->anchorNode->x, this->anchorNode->y,
+//			  root->node->x, 	root->node->y,
+//			  newNode->x, 	newNode->y))
+//    {
+//        root->left = insert(root->left, newNode);
+//        root = balance (root);
+//    }
+//    else if (not compareDistanceBigger( this->anchorNode->x, this->anchorNode->y,
+//			  root->node->x, 	root->node->y,
+//			  newNode->x, 	newNode->y))
+//    {
+//        root->right = insert(root->right, newNode);
+//        root = balance (root);
+//    }
+//    return root;
+//}
+
+
+// Finding the Smallest
+avlNode* avlTree::findMin(avlNode* root)
+{
+	if (root == NULL)
+	{
+		cout<<"The tree is empty\n"<<endl;
+		return NULL;
+	}
+	else
+	{
+		while(root ->left !=NULL)
+		{
+			root = root->left;
+			//return root;
+		}
+		return root;
+	}
+	return root;
+}
 /*
  * Display AVL Tree
  */
-void avlTree::display(avl_node *ptr, int level)
+void avlTree::display(avlNode *ptr, int level)
 {
     int i;
     if (ptr!=NULL)
@@ -243,38 +337,91 @@ void avlTree::display(avl_node *ptr, int level)
     }
 }
 
-/*
- * Inorder Traversal of AVL Tree
- */
-void avlTree::inorder(avl_node *tree)
-{
-    if (tree == NULL)
-        return;
-    inorder (tree->left);
-    cout<<tree->data<<"  ";
-    inorder (tree->right);
-}
-/*
- * Preorder Traversal of AVL Tree
- */
-void avlTree::preorder(avl_node *tree)
-{
-    if (tree == NULL)
-        return;
-    cout<<tree->data<<"  ";
-    preorder (tree->left);
-    preorder (tree->right);
 
+avlNode* avlTree::delet(avlNode* root, int key)
+{
+    // STEP 1: PERFORM STANDARD BST DELETE
+
+    if (root == NULL)
+        return root;
+
+    // If the key to be deleted is smaller than the root's key,
+    // then it lies in left subtree
+    if ( key < root->data )
+        root->left = delet(root->left, key);
+
+    // If the key to be deleted is greater than the root's key,
+    // then it lies in right subtree
+    else if( key > root->data )
+        root->right = delet(root->right, key);
+
+    // if key is same as root's key, then This is the node
+    // to be deleted
+    else
+    {
+        // node with only one child or no child
+        if( (root->left == NULL) || (root->right == NULL) )
+        {
+            avlNode *temp = root->left ? root->left : root->right;
+
+            // No child case
+            if(temp == NULL)
+            {
+                temp = root;
+                root = NULL;
+            }
+            else // One child case
+             *root = *temp; // Copy the contents of the non-empty child
+
+            free(temp);
+        }
+        else
+        {
+            // node with two children: Get the inorder successor (smallest
+            // in the right subtree)
+            struct avlNode* temp = findMin(root->right);
+
+            // Copy the inorder successor's data to this node
+            root->data = temp->data;
+
+            // Delete the inorder successor
+            root->right = delet(root->right, temp->data);
+        }
+    }
+
+    // If the tree had only one node then return
+    if (root == NULL)
+      return root;
+
+
+    // STEP 3: GET THE BALANCE FACTOR OF THIS NODE (to check whether
+    //  this node became unbalanced)
+    int balance = diff(root);
+
+    // If this node becomes unbalanced, then there are 4 cases
+
+    // Left Left Case
+    if (balance > 1 && diff(root->left) >= 0)
+        return rr_rotation(root);
+
+    // Left Right Case
+    if (balance > 1 && diff(root->left) < 0)
+    {
+        root->left =  ll_rotation(root->left);
+        return rr_rotation(root);
+    }
+
+    // Right Right Case
+    if (balance < -1 && diff(root->right) <= 0)
+        return ll_rotation(root);
+
+    // Right Left Case
+    if (balance < -1 && diff(root->right) > 0)
+    {
+        root->right = rr_rotation(root->right);
+        return ll_rotation(root);
+    }
+
+    return root;
 }
 
-/*
- * Postorder Traversal of AVL Tree
- */
-void avlTree::postorder(avl_node *tree)
-{
-    if (tree == NULL)
-        return;
-    postorder ( tree ->left );
-    postorder ( tree ->right );
-    cout<<tree->data<<"  ";
-}
