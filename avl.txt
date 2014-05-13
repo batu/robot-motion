@@ -110,10 +110,10 @@ int main()
         case 1:
             cout<<"Enter value to be inserted: ";
             root = avl.insert(root, &base, &node1);
-            root = avl.insert(root, &base, &node2);
-            root = avl.insert(root, &base, &node3);
-            root = avl.insert(root, &base, &node4);
-            root = avl.insert(root, &base, &node5);
+          //  root = avl.insert(root, &base, &node2);
+          //  root = avl.insert(root, &base, &node3);
+          //  root = avl.insert(root, &base, &node4);
+          //  root = avl.insert(root, &base, &node5);
             break;
         case 2:
             if (root == NULL)
@@ -145,11 +145,11 @@ int main()
             break;
         case 7:
             cout<<"Enter value to be deleted: ";
-            avl.delet(root, &base, &node1);
-            avl.delet(root, &base, &node2);
-            avl.delet(root, &base, &node3);
-            avl.delet(root, &base, &node4);
-            avl.delet(root, &base, &node5);
+            root = avl.delet(root, &base, &node1);
+           // root = avl.delet(root, &base, &node2);
+           // root = avl.delet(root, &base, &node3);
+           // root = avl.delet(root, &base, &node4);
+           // root = avl.delet(root, &base, &node5);
             break;
         case 8:
             exit(1);
@@ -189,7 +189,7 @@ bool compareDistanceBiggerNode( Node* base,  Node* node1, Node* node2)
     distance1 = sqrt(pow((base->x - node1->x),2) + pow((base->y - node1->y),2));
     distance2 = sqrt(pow((base->x - node2->x),2) + pow((base->y - node2->y),2));
 
-    if (distance1 > distance2) {
+    if (distance1 >= distance2) {
         return true;
     } else {
         return false;
@@ -391,25 +391,15 @@ avl_node* avlTree::delet(avl_node* root, Node* base,  Node* node)
 {
     // STEP 1: PERFORM STANDARD BST DELETE
 
+    cout << node;
     if (root == NULL)
         return root;
-        cout << "Buraya gelmemeliydik";
+        cout << "YENI DUNYA Buraya gelmemeliydik! ! ";
     // If the key to be deleted is smaller than the root's key,
     // then it lies in left subtree
-    if (( compareDistanceBiggerNode(base, root->node, node ))){
-        root->left = delet(root->left, base, node);
-        cout << "Buraya kadar geldik left compare distance çalýþtý";
-    }
-    // If the key to be deleted is greater than the root's key,
-    // then it lies in right subtree
-    else if(not( compareDistanceBiggerNode(base, root->node, node ))){
-        root->right = delet(root->right, base, node);
-        cout << "Buraya kadar geldik";
-    }
-    // if key is same as root's key, then This is the node
-    // to be deleted
-    else
+    if ( node == root->node)
     {
+        cout << "peki ya burasý?" << endl;
         // node with only one child or no child
         if( (root->left == NULL) || (root->right == NULL) )
         {
@@ -439,6 +429,18 @@ avl_node* avlTree::delet(avl_node* root, Node* base,  Node* node)
             // Delete the inorder successor
             root->right = delet(root->right, base ,temp->node);
         }
+    }
+    // If the key to be deleted is greater than the root's key,
+    // then it lies in right subtree
+    else if(not( compareDistanceBiggerNode(base, root->node, node ))){
+        root->right = delet(root->right, base, node);
+        cout << "Buraya kadar geldik";
+    }
+    // if key is same as root's key, then This is the node
+    // to be deleted
+    else if (( compareDistanceBiggerNode(base, root->node, node ))){
+        root->left = delet(root->left, base, node);
+        cout << "Buraya kadar geldik left compare distance çalýþtý ";
     }
 
     // If the tree had only one node then return
