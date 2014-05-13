@@ -1,21 +1,21 @@
 all:visibilityGraph
 
 
-visibilityGraph: avl.o classes.o visibility.o
-	g++ avl.o classes.o visibility.o -o visibilityGraph.exe
+visibilityGraph: getInput.o buildVGraph.o findPath.o
+	g++ getInput.o buildVGraph.o findPath.o -o visibilityGraph.exe
 
 
-avl: avl.o
-	g++ -std=c++11 avl.o -o avl.exe
+getInput: getInput.o
+	g++ -std=c++11 getInput.o -o getInput.exe
 
-avl.o: avl.cpp
-	g++ -c avl.cpp
+getInput.o: getInput.cpp
+	g++ -c getInput.cpp
 
-classes: classes.o
-	g++ -std=c++11 classes.o -o classes.exe
+buildVGraph: buildVGraph.o
+	g++ -std=c++11 buildVGraph.o -o buildVGraph.exe
 
-classes.o:classes.cpp
-	g++ -c classes.cpp
+buildVGraph.o:buildVGraph.cpp
+	g++ -c buildVGraph.cpp
 
 visibility: visibility.o
 	g++ -std=c++11 visibility.o -o visibility.exe
@@ -23,11 +23,11 @@ visibility: visibility.o
 visibility.o:visibility.cpp
 	g++ -std=c++11 -c visibility.cpp
 
-runAvl: avl.exe
-	./avl.exe
+rungetInput: getInput.exe
+	./getInput.exe
 
-runClasses: classes.exe
-	cmd classes.exe
+runbuildVGraph: buildVGraph.exe
+	cmd buildVGraph.exe
 
 runVisibility: visibility.exe
 	cmd visibility.exe
