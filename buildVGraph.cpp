@@ -246,7 +246,7 @@ bool compareDistanceBigger( double xbase, double ybase,
 	}
 }
 
-bool compareDistanceBiggerNode( Node* base,  Node* node1, Node* node2)
+bool compareDistanceBBiggerNode( Node* base,  Node* node1, Node* node2)
 {
 
 	double distance1, distance2;
@@ -261,16 +261,16 @@ bool compareDistanceBiggerNode( Node* base,  Node* node1, Node* node2)
 	}
 }
 
-bool compareDistanceEdge(Node* base,  Node* node1, Node* node2)
+bool compareDistanceBiggerNode(Node* base,  Node* node, Node* node2)
 {
 
 	double distance1, distance2, dis1x, dis1y, dis2x, dis2y;
 
-	dis1x = node1->adjNode[0]->x + node1->x;
-	dis1y = node1->adjNode[0]->y + node1->y;
+	dis1x = (node->adjNode[0]->x + node->x)/2;
+	dis1y = (node->adjNode[0]->y + node->y)/2;
 
-	dis2x = node1->adjNode[1]->x + node1->x;
-	dis2y = node1->adjNode[1]->y + node1->y;
+	dis2x = (node->adjNode[1]->x + node->x)/2;
+	dis2y = (node->adjNode[1]->y + node->y)/2;
 
 	distance1 = sqrt(pow((base->x - dis1x),2) + pow((base->y - dis1y),2));
 	distance2 = sqrt(pow((base->x - dis2x),2) + pow((base->y - dis2y),2));
