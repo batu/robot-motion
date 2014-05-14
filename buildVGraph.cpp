@@ -82,7 +82,7 @@ class avlTree
         avl_node *lr_rotation(avl_node *);
         avl_node *rl_rotation(avl_node *);
         avl_node* balance(avl_node *);
-        avl_node* insert(avl_node *, Node*, Node*);
+        avl_node* insert(avl_node *, Node*, vector<Node*>);
         avl_node* findMin(avl_node*);
         void display(avl_node *, int);
         void inorder(avl_node *);
@@ -154,10 +154,6 @@ int main()
         {
         case 1:
             cout<<"Enter value to be inserted: ";
-            root = avl.insert(root, &base, &node1);
-            root = avl.insert(root, &base, &node2);
-            root = avl.insert(root, &base, &node3);
-            root = avl.insert(root, &base, &node4);
             break;
         case 2:
             if (root == NULL)
@@ -220,16 +216,16 @@ bool compareDistanceBiggerNode( Node* base,  Node* node1, Node* node2)
 	}
 }
 
-bool compareDistanceEdge(Node* base,  Node* node, Node* node2)
+bool compareDistanceEdge(Node* base,  vector<Node*> edge1, vector<Node*> edge2 )
 {
 
 	double distance1, distance2, dis1x, dis1y, dis2x, dis2y;
 
-	dis1x = (node->adjNode[0]->x + node->x)/2;
-	dis1y = (node->adjNode[0]->y + node->y)/2;
+	dis1x = (edge1[0]->x + edge1[1]->x)/2;
+	dis1y = (edge1[0]->y + edge1[1]->y)/2;
 
-	dis2x = (node->adjNode[1]->x + node->x)/2;
-	dis2y = (node->adjNode[1]->y + node->y)/2;
+	dis2x = (edge2[0]->x + edge2[1]->x)/2;
+	dis2y = (edge2[0]->y + edge2[1]->y)/2;
 
 	distance1 = sqrt(pow((base->x - dis1x),2) + pow((base->y - dis1y),2));
 	distance2 = sqrt(pow((base->x - dis2x),2) + pow((base->y - dis2y),2));
@@ -242,6 +238,7 @@ bool compareDistanceEdge(Node* base,  Node* node, Node* node2)
 }
 
 
+
 void avlTree::isVisible(avl_node* root, vector<Node*>* visibilityVector, Node* base, Node* target){
 	if (this->findMin(root)->node == target){
 		visibilityVector->push_back(target);
@@ -251,7 +248,7 @@ void avlTree::isVisible(avl_node* root, vector<Node*>* visibilityVector, Node* b
 	    	visibilityVector->push_back(target);
 	    }
 	} else {
-		this->insert(root,base,target);
+		this->insert(root, base, target);
 		if (this->findMin(root)->node == target){
 	    	visibilityVector->push_back(target);
 	}
@@ -362,25 +359,25 @@ avl_node *avlTree::balance(avl_node *temp)
 ///////////// 						INSERT                        /////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-avl_node *avlTree::insert(avl_node *root, Node* base, Node* node)
+avl_node *avlTree::insert(avl_node *root, Node* base, vector<Node*> edge)
 {
     if (root == NULL)
     {
         root = new avl_node;
 
-        root->node = node;
+        root->edge = edge;
         root->left = NULL;
         root->right = NULL;
         return root;
     }
-    else if (compareDistanceBiggerNode(base, root->node, node))
+    else if (compareDistanceEdge(base, root->edge, edge))
     {
-        root->left = insert(root->left,base, node);
+        root->left = insert(root->left, base, edge);
         root = balance (root);
     }
-    else if (not (compareDistanceBiggerNode(base, root->node, node)))
+    else if (not (compareDistanceEdge(base, root->edge, edge)))
     {
-        root->right = insert(root->right,base, node);
+        root->right = insert(root->right, base, edge);
         root = balance (root);
     }
     return root;
