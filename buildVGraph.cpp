@@ -90,7 +90,7 @@ class avlTree
         void postorder(avl_node *);
         void isVisible(avl_node*, vector<Node*>*, Node*, Node*);
         bool isIn(avl_node*, Node*);
-        avl_node* delet(avl_node*,Node*,Node*);
+        avl_node* delet(avl_node*,Node*,vector<Node*>);
         avlTree()
         {
             root = NULL;
@@ -174,10 +174,10 @@ int main()
         case 7:
             cout<<"Enter value to be deleted: ";
 
-            root = avl.delet(root, &base, &node2);
-            root = avl.delet(root, &base, &node3);
-            root = avl.delet(root, &base, &node4);
-            root = avl.delet(root, &base, &node1);
+//            root = avl.delet(root, &base, &node2);
+//            root = avl.delet(root, &base, &node3);
+//            root = avl.delet(root, &base, &node4);
+//            root = avl.delet(root, &base, &node1);
             break;
         case 8:
             avl.isIn(root, &node1);
@@ -461,16 +461,16 @@ bool avlTree::isIn(avl_node* root, Node* target){
 	}
 	return false;
 }
-avl_node* avlTree::delet(avl_node* root, Node* base,  Node* node)
+avl_node* avlTree::delet(avl_node* root, Node* base,  vector<Node*> edge)
 {
     // STEP 1: PERFORM STANDARD BST DELETE
 
-	cout << node;
+	cout << edge;
     if (root == NULL)
         return root;
     // If the key to be deleted is smaller than the root's key,
     // then it lies in left subtree
-    if ( node == root->node)
+    if ( edge == root->edge)
     {
         // node with only one child or no child
         if( (root->left == NULL) || (root->right == NULL) )
@@ -495,22 +495,22 @@ avl_node* avlTree::delet(avl_node* root, Node* base,  Node* node)
             struct avl_node* temp = findMin(root->right);
 
             // Copy the inorder successor's data to this node
-            root->node = temp->node;
+            root->edge = temp->edge;
 
             // Delete the inorder successor
-            root->right = delet(root->right, base ,temp->node);
+            root->right = delet(root->right, base ,temp->edge);
         }
     }
     // If the key to be deleted is greater than the root's key,
     // then it lies in right subtree
-    else if(not( compareDistanceBiggerNode(base, root->node, node ))){
-        root->right = delet(root->right, base, node);
+    else if(not( compareDistanceEdge(base, root->edge, edge ))){
+        root->right = delet(root->right, base, edge);
         cout << "Buraya kadar geldik";
     }
     // if key is same as root's key, then This is the node
     // to be deleted
-    else if (( compareDistanceBiggerNode(base, root->node, node ))){
-        root->left = delet(root->left, base, node);
+    else if (( compareDistanceEdge(base, root->edge, edge ))){
+        root->left = delet(root->left, base, edge);
         cout << "Buraya kadar geldik left compare distance çalýþtý ";
     }
 
