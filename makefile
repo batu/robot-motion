@@ -27,10 +27,10 @@ rungetInput: getInput.exe
 	./getInput.exe
 
 runbuildVGraph: buildVGraph.exe
-	cmd buildVGraph.exe
+	./buildVGraph.exe
 
 runVisibility: visibility.exe
-	cmd visibility.exe
+	./visibility.exe
 
 runAll: visibilityGraph
 	cmd visibilityGraph.exe
