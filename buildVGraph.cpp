@@ -122,8 +122,10 @@ int main()
     node1.adjNode.push_back(&node4);
     node1.adjNode.push_back(&node2);
 
+
     node2.x = 22;
     node2.y = 43;
+
     node2.adjNode.push_back(&node1);
     node2.adjNode.push_back(&node3);
 
@@ -132,11 +134,11 @@ int main()
     node3.adjNode.push_back(&node2);
     node3.adjNode.push_back(&node4);
 
+
     node4.x = 45;
     node4.y = 36;
     node4.adjNode.push_back(&node3);
-    node4.adjNode.push_back(&node1);
-
+    node4.adjNode.push_back(&node3);
 
     avlTree avl;
 
@@ -247,18 +249,33 @@ bool compareDistanceBigger( double xbase, double ybase,
 bool compareDistanceBiggerNode( Node* base,  Node* node1, Node* node2)
 {
 
-	double distance1, distance2, dis1x, dis1y, dis2x, dis2y;
-
-	dis1x = node1->adjNode[0]->x;
-	dis1y = node1->adjNode[0]->y;
-
-	dis2x=
-	dis2y=
+	double distance1, distance2;
 
 	distance1 = sqrt(pow((base->x - node1->x),2) + pow((base->y - node1->y),2));
 	distance2 = sqrt(pow((base->x - node2->x),2) + pow((base->y - node2->y),2));
 
 	if (distance1 >= distance2) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool compareDistanceEdge(Node* base,  Node* node1, Node* node2)
+{
+
+	double distance1, distance2, dis1x, dis1y, dis2x, dis2y;
+
+	dis1x = node1->adjNode[0]->x + node1->x;
+	dis1y = node1->adjNode[0]->y + node1->y;
+
+	dis2x = node1->adjNode[1]->x + node1->x;
+	dis2y = node1->adjNode[1]->y + node1->y;
+
+	distance1 = sqrt(pow((base->x - dis1x),2) + pow((base->y - dis1y),2));
+	distance2 = sqrt(pow((base->x - dis2x),2) + pow((base->y - dis2y),2));
+
+	if (distance1 > distance2) {
 		return true;
 	} else {
 		return false;
