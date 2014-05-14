@@ -4,8 +4,17 @@
  *  Created on: 13 May 2014
  *      Author: Asyrique
  */
-#include<iostream>
 
+/*
+ * C++ program to Implement AVL Tree
+ */
+#include<iostream>
+#include<cstdio>
+#include<sstream>
+#include<algorithm>
+#include<cmath>
+#include<vector>
+#define pow2(n) (1 << (n))
 using namespace std;
 
 bool compareAngleBigger(	double xbase, double ybase,
@@ -38,17 +47,6 @@ bool compareAngleBigger(	double xbase, double ybase,
 	}
 }
 
-
-/*
- * C++ program to Implement AVL Tree
- */
-#include<iostream>
-#include<cstdio>
-#include<sstream>
-#include<algorithm>
-#define pow2(n) (1 << (n))
-using namespace std;
-
 /*
  * Node Declaration
  */
@@ -57,17 +55,12 @@ public:
 	double x;
 	double y;
 	vector <Node*> adjNode;
-    Node()
-    {
-        x = 0;
-        y = 0;
-    }
-
 };
 
 /*
  * AvlNode Declaration
  */
+
 struct avl_node
 {
     Node* node;
@@ -177,18 +170,6 @@ int main()
             cout<<"Balanced AVL Tree:"<<endl;
             avl.display(root, 1);
             break;
-        case 3:
-            cout<<"Inorder Traversal:"<<endl;
-            cout<<endl;
-            break;
-        case 4:
-            cout<<"Preorder Traversal:"<<endl;
-            cout<<endl;
-            break;
-        case 5:
-            cout<<"Postorder Traversal:"<<endl;
-            cout<<endl;
-            break;
         case 6:
             cout<<"Minimum:"<<endl;
             int x;
@@ -229,22 +210,22 @@ int main()
 
 
 // Compare function that is used to compare the elements to insert to the avl.
-bool compareDistanceBigger( double xbase, double ybase,
-					  double x1, 	double y1,
-					  double x2, 	double y2)
-{
-
-	double distance1, distance2;
-
-	distance1 = sqrt(pow((xbase - x1),2) + pow((ybase - y1),2));
-	distance2 = sqrt(pow((xbase - x2),2) + pow((ybase - y2),2));
-
-	if (distance1 > distance2) {
-		return true;
-	} else {
-		return false;
-	}
-}
+//bool compareDistanceBigger( double xbase, double ybase,
+//					  double x1, 	double y1,
+//					  double x2, 	double y2)
+//{
+//
+//	double distance1, distance2;
+//
+//	distance1 = sqrt(pow((xbase - x1),2) + pow((ybase - y1),2));
+//	distance2 = sqrt(pow((xbase - x2),2) + pow((ybase - y2),2));
+//
+//	if (distance1 > distance2) {
+//		return true;
+//	} else {
+//		return false;
+//	}
+//}
 
 bool compareDistanceBiggerNode( Node* base,  Node* node1, Node* node2)
 {
