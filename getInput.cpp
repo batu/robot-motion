@@ -83,11 +83,6 @@ void buildGraph(Node * start, Node * end, vector<Node> * nodeList) {
 	end->y = inputGraph [0][1];
 	inputGraph.erase(inputGraph.begin());
 
-	/////Create vector of vector of edges
-		vector< vector<Node*> > edgeList;
-		inputGraph
-
-
 	////// Begin creating nodes ////
 	for (int j = 0; j < inputGraph.size();j++){
 		for (int k = 0; k < (inputGraph[j].size()-1); k+=2){
@@ -98,6 +93,29 @@ void buildGraph(Node * start, Node * end, vector<Node> * nodeList) {
 			cout << "creating node x:" << newNode->x << " y:" << newNode->y << endl;
 			nodeList->push_back(*newNode);
 		}
+	}
+	//////Link adjacent nodes together/////
+	/////Assuming that the nodes go into nodesList in order, just find the order,
+	///find the number of nodes per object, and injects the adjacencies.
+	int position = 0;
+	for (int k = 0; k < inputGraph.size(); k++){
+		int numOfElem = inputGraph[k].size() / 2;
+		for (int l = 0; l < numOfElem; l++) {
+			if (l == (numOfElem-1)){//If it's the last node
+				(nodeList->at(position+l)).adjNode.push_back(&(nodeList->at(position+l-1)));//Add node before this one
+				(nodeList->at(position+l)).adjNode.push_back(&(nodeList->at(position+0)));//Add first node in this part
+			}
+			else if (l == 0) {//If it's teh first node
+				(nodeList->at(position+l)).adjNode.push_back(&(nodeList->at(position+(numOfElem - 1))));//Add last node in this part
+				(nodeList->at(position+l)).adjNode.push_back(&(nodeList->at(position+l+1)));//Add second node
+			}
+			else{//Any other nodes
+				(nodeList->at(position+l)).adjNode.push_back(&(nodeList->at(position+l+1)));//Add next node in list
+				(nodeList->at(position+l)).adjNode.push_back(&(nodeList->at(position+l-1)));//Add previous node in list
+			}
+			cout << "Added adjacencies for Node: x." << nodeList->at(position + l).x << " y." << nodeList->at(position + l).y << endl;
+		}
+		position = position + numOfElem;//Add extra one because we want to avoid hitting the same element again on the first part of the subsequent loop.
 	}
 }
 
@@ -111,9 +129,11 @@ int main() {
 
 	buildGraph(&start, &end, &nodeList);
 	cout << nodeList[0].x << endl;
+	cout << nodeList[0].adjNode[0]->x <<endl;
+	cout << nodeList[0].adjNode[0]->y << endl;
+	cout << nodeList[0].adjNode[1]->x << endl;
+	cout << nodeList[0].adjNode[1]->y << endl;
 	cout << nodeList[2].x << endl;
-	cout << start.x << endl;
-	cout << end.x << endl;
 }
 
 
