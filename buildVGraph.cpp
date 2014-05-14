@@ -63,6 +63,7 @@ public:
 
 struct avl_node
 {
+	vector<Node*> edge;
     Node* node;
     struct avl_node *left;
     struct avl_node *right;
@@ -142,9 +143,6 @@ int main()
         cout<<"\n---------------------"<<endl;
         cout<<"1.Insert Element into the tree -Batu"<<endl;
         cout<<"2.Display Balanced AVL Tree"<<endl;
-        cout<<"3.InOrder traversal"<<endl;
-        cout<<"4.PreOrder traversal"<<endl;
-        cout<<"5.PostOrder traversal"<<endl;
         cout<<"6.Find the minimum - Batu"<<endl;
         cout<<"7.Delete and pray v2 - Batu"<<endl;
         cout<<"8.is it in -Batu"<<endl;
@@ -195,7 +193,6 @@ int main()
         case 9:
         	avl.isVisible(root, &visibilityList, &base, &node1);
         	cout << visibilityList[0]->x;
-        	cout << "Allah allah buraya geldik... ";
         	break;
         case 10:
             exit(1);
@@ -207,25 +204,6 @@ int main()
     return 0;
 }
 
-
-
-// Compare function that is used to compare the elements to insert to the avl.
-//bool compareDistanceBigger( double xbase, double ybase,
-//					  double x1, 	double y1,
-//					  double x2, 	double y2)
-//{
-//
-//	double distance1, distance2;
-//
-//	distance1 = sqrt(pow((xbase - x1),2) + pow((ybase - y1),2));
-//	distance2 = sqrt(pow((xbase - x2),2) + pow((ybase - y2),2));
-//
-//	if (distance1 > distance2) {
-//		return true;
-//	} else {
-//		return false;
-//	}
-//}
 
 bool compareDistanceBiggerNode( Node* base,  Node* node1, Node* node2)
 {
@@ -389,6 +367,7 @@ avl_node *avlTree::insert(avl_node *root, Node* base, Node* node)
     if (root == NULL)
     {
         root = new avl_node;
+
         root->node = node;
         root->left = NULL;
         root->right = NULL;
