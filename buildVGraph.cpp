@@ -89,7 +89,7 @@ class avlTree
         void preorder(avl_node *);
         void postorder(avl_node *);
         void isVisible(avl_node*, vector<Node*>*, Node*, Node*);
-        bool isIn(avl_node*, Node*);
+        bool isIn(avl_node*, vector<Node*>);
         avl_node* delet(avl_node*,Node*,vector<Node*>);
         avlTree()
         {
@@ -180,10 +180,10 @@ int main()
 //            root = avl.delet(root, &base, &node1);
             break;
         case 8:
-            avl.isIn(root, &node1);
-            avl.isIn(root, &node2);
-            avl.isIn(root, &node3);
-            avl.isIn(root, &node4);
+//            avl.isIn(root, &node1);
+//            avl.isIn(root, &node2);
+//            avl.isIn(root, &node3);
+//            avl.isIn(root, &node4);
             cout << "No crushes" << endl;
             break;
         case 9:
@@ -445,9 +445,9 @@ void avlTree::display(avl_node *ptr, int level)
     }
 }
 
-bool avlTree::isIn(avl_node* root, Node* target){
+bool avlTree::isIn(avl_node* root, vector<Node*> target){
 	cout << "Girdik isine";
-	if (root->node == target){
+	if (root->edge == target){
 		cout << "Vallahi burada." << endl;
 		return true;
 
