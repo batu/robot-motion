@@ -82,6 +82,12 @@ void buildGraph(Node * start, Node * end, vector<Node> * nodeList) {
 	end->x = inputGraph [0][0];
 	end->y = inputGraph [0][1];
 	inputGraph.erase(inputGraph.begin());
+
+	/////Create vector of vector of edges
+		vector< vector<Node*> > edgeList;
+		inputGraph
+
+
 	////// Begin creating nodes ////
 	for (int j = 0; j < inputGraph.size();j++){
 		for (int k = 0; k < (inputGraph[j].size()-1); k+=2){
@@ -93,10 +99,6 @@ void buildGraph(Node * start, Node * end, vector<Node> * nodeList) {
 			nodeList->push_back(*newNode);
 		}
 	}
-
-	/////Create vector of vector of edges
-	vector< vector<Node*> >
-	inputGraph
 }
 
 //Do the sweep by looking at the angle.
