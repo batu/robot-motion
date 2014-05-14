@@ -246,7 +246,7 @@ bool compareDistanceBigger( double xbase, double ybase,
 	}
 }
 
-bool compareDistanceBBiggerNode( Node* base,  Node* node1, Node* node2)
+bool compareDistanceBiggerNode( Node* base,  Node* node1, Node* node2)
 {
 
 	double distance1, distance2;
@@ -261,7 +261,7 @@ bool compareDistanceBBiggerNode( Node* base,  Node* node1, Node* node2)
 	}
 }
 
-bool compareDistanceBiggerNode(Node* base,  Node* node, Node* node2)
+bool compareDistanceEdge(Node* base,  Node* node, Node* node2)
 {
 
 	double distance1, distance2, dis1x, dis1y, dis2x, dis2y;
