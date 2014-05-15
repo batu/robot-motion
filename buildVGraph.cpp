@@ -135,38 +135,38 @@ public:
  */
 
 
-	  int choice;
-
-    Node base, node1, node2, node3, node4, node5;
-    vector <Node*> node1vec, node2vec, node3vec, node4vec;
-    vector<Node*> visibilityList;
-
-    base.x = 0;
-    base.y = 0;
-
-    node1.x = 11;
-    node1.y = 35;
-    node1.adjNode.push_back(&node4);
-    node1.adjNode.push_back(&node2);
-
-
-    node2.x = 22;
-    node2.y = 43;
-
-    node2.adjNode.push_back(&node1);
-    node2.adjNode.push_back(&node3);
-
-    node3.x = 34;
-    node3.y = 42;
-    node3.adjNode.push_back(&node2);
-    node3.adjNode.push_back(&node4);
-
-
-    node4.x = 45;
-    node4.y = 36;
-    node4.adjNode.push_back(&node3);
-    node4.adjNode.push_back(&node3);
-
+//	  int choice;
+//
+//    Node base, node1, node2, node3, node4, node5;
+//    vector <Node*> node1vec, node2vec, node3vec, node4vec;
+//    vector<Node*> visibilityList;
+//
+//    base.x = 0;
+//    base.y = 0;
+//
+//    node1.x = 11;
+//    node1.y = 35;
+//    node1.adjNode.push_back(&node4);
+//    node1.adjNode.push_back(&node2);
+//
+//
+//    node2.x = 22;
+//    node2.y = 43;
+//
+//    node2.adjNode.push_back(&node1);
+//    node2.adjNode.push_back(&node3);
+//
+//    node3.x = 34;
+//    node3.y = 42;
+//    node3.adjNode.push_back(&node2);
+//    node3.adjNode.push_back(&node4);
+//
+//
+//    node4.x = 45;
+//    node4.y = 36;
+//    node4.adjNode.push_back(&node3);
+//    node4.adjNode.push_back(&node3);
+//
 	avlTree avl;
 	vector<Node*> nodeList;
 
@@ -174,65 +174,64 @@ public:
 	for (int m = 0;m < nodeList.size(); m++){
 	}
 
-    while (1)
-    {
-        cout<<"\n---------------------"<<endl;
-        cout<<"AVL Tree Implementation - Batufied"<<endl;
-        cout<<"\n---------------------"<<endl;
-        cout<<"1.Insert Element into the tree -Batu"<<endl;
-        cout<<"2.Display Balanced AVL Tree"<<endl;
-        cout<<"6.Find the minimum - Batu"<<endl;
-        cout<<"7.Delete and pray v2 - Batu"<<endl;
-        cout<<"8.is it in -Batu"<<endl;
-        cout<<"9.visibility graph come on" <<endl;
-        cout<<"10.Exit"<<endl;
-        cout<<"Enter your Choice: ";
-        cin>>choice;
-        switch(choice)
-        {
-        case 1:
-            cout<<"Enter value to be inserted: ";
-            break;
-        case 2:
-            if (root == NULL)
-            {
-                cout<<"Tree is Empty"<<endl;
-                continue;
-            }
-            cout<<"Balanced AVL Tree:"<<endl;
-            avl.display(root, 1);
-            break;
-        case 6:
-            cout<<"Minimum:"<<endl;
-            int x;
-            x = avl.findMin(root)->node->x;
-            cout << x;
-            cout<<endl;
-            break;
-        case 7:
-            cout<<"Enter value to be deleted: ";
-
-            break;
-        case 8:
-            cout << "No crushes" << endl;
-            break;
-        case 9:
-        	avl.isVisible(root, &visibilityList, &base, &node4);
-        	avl.isVisible(root, &visibilityList, &base, &node3);
-        	avl.isVisible(root, &visibilityList, &base, &node2);
-        	avl.isVisible(root, &visibilityList, &base, &node1);
-        	cout << "printing results :" << endl;
-        	cout << visibilityList.size() << endl;
-        	cout << visibilityList[0]->x << endl;
-        	cout << visibilityList[1]->x << endl;
-        	break;
-        case 10:
-            exit(1);
-            break;
-        default:
-            cout<<"Wrong Choice"<<endl;
-        }
-    }
+//    while (1)
+//    {
+//        cout<<"\n---------------------"<<endl;
+//        cout<<"AVL Tree Implementation - Batufied"<<endl;
+//        cout<<"\n---------------------"<<endl;
+//        cout<<"1.Insert Element into the tree -Batu"<<endl;
+//        cout<<"2.Display Balanced AVL Tree"<<endl;
+//        cout<<"6.Find the minimum - Batu"<<endl;
+//        cout<<"7.Delete and pray v2 - Batu"<<endl;
+//        cout<<"8.is it in -Batu"<<endl;
+//        cout<<"9.visibility graph come on" <<endl;
+//        cout<<"10.Exit"<<endl;
+//        cout<<"Enter your Choice: ";
+//        cin>>choice;
+//        switch(choice)
+//        {
+//        case 1:
+//            cout<<"Enter value to be inserted: ";
+//            break;
+//        case 2:
+//            if (root == NULL)
+//            {
+//                cout<<"Tree is Empty"<<endl;
+//                continue;
+//            }
+//            cout<<"Balanced AVL Tree:"<<endl;
+//            avl.display(root, 1);
+//            break;
+//        case 6:
+//            cout<<"Minimum:"<<endl;
+//            int x;
+//            x = avl.findMin(root)->node->x;
+//            cout << x;
+//            cout<<endl;
+//            break;
+//        case 7:
+//            cout<<"Enter value to be deleted: ";
+//
+//            break;
+//        case 8:
+//            cout << "No crushes" << endl;
+//            break;
+//        case 9:
+//        	avl.isVisible(root, &visibilityList, &base, &node4);
+//        	avl.isVisible(root, &visibilityList, &base, &node3);
+//        	avl.isVisible(root, &visibilityList, &base, &node2);
+//        	avl.isVisible(root, &visibilityList, &base, &node1);
+//        	cout << "printing results :" << endl;
+//        	cout << visibilityList[0]->x << endl;
+//        	cout << visibilityList[1]->x << endl;
+//        	break;
+//        case 10:
+//            exit(1);
+//            break;
+//        default:
+//            cout<<"Wrong Choice"<<endl;
+//        }
+//    }
 	return 0;
 }
 
