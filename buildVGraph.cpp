@@ -9,47 +9,24 @@
  * C++ program to Implement AVL Tree
  */
 #include<iostream>
-#include<cstdio>
+#include<cmath>
 #include<sstream>
+#include<stdexcept>
+#include<fstream>
+#include<vector>
+#include<string>
+#include<stdlib.h>
+#include<cstdlib>
+#include<cstdio>
 #include<algorithm>
 #include<cmath>
-#include<vector>
 #define pow2(n) (1 << (n))
 using namespace std;
-
-bool compareAngleBigger(	double xbase, double ybase,
-							double x1,    double y1,
-							double x2,    double y2)
-{
-	double relx1, relx2, rely1, rely2;
-	int quadrant1, quadrant2;
-	relx1 = x1 - xbase;
-	relx2 = x2 - xbase;
-	rely1 = y1 - ybase;
-	rely2 = y2 - ybase;
-
-		 if(relx1 > 0 and rely1 > 0) {quadrant1 = 1;}
-	else if(relx1 < 0 and rely1 > 0) {quadrant1 = 2;}
-	else if(relx1 < 0 and rely1 < 0) {quadrant1 = 3;}
-	else if(relx1 > 0 and rely1 < 0) {quadrant1 = 4;}
-
-		 if(relx2 > 0 and rely2 > 0) {quadrant2 = 1;}
-	else if(relx2 < 0 and rely2 > 0) {quadrant2 = 2;}
-	else if(relx2 < 0 and rely2 < 0) {quadrant2 = 3;}
-	else if(relx2 > 0 and rely2 < 0) {quadrant2 = 4;}
-
-	if ( quadrant1 > quadrant2)	{ return true  ;}
-	if ( quadrant2 > quadrant1)	{ return false ;}
-	if (quadrant1 == quadrant2){
-			 if ((relx1 / rely1) > (relx2 / rely2))  { return true  ;}
-		else if ((relx1 / rely1) < (relx2 / rely2))  { return false ;}
-
-	}
-}
 
 /*
  * Node Declaration
  */
+
 class Node{
 public:
 	double x;
@@ -61,8 +38,7 @@ public:
  * AvlNode Declaration
  */
 
-struct avl_node
-{
+struct avl_node{
 	vector<Node*> edge;
     Node* node;
     struct avl_node *left;
@@ -72,8 +48,7 @@ struct avl_node
 /*
  * Class Declaration
  */
-class avlTree
-{
+class avlTree{
     public:
         int height(avl_node *);
         int diff(avl_node *);
@@ -97,106 +72,145 @@ class avlTree
         }
 };
 
+bool compareAngleBigger(Node* base, Node* node1, Node* node2){
+
+	double relx1, relx2, rely1, rely2;
+	int quadrant1, quadrant2;
+	relx1 = node1->x - base->x;
+	relx2 = node2->x - base->x;
+	rely1 = node1->y - base->y;
+	rely2 = node2->y - base->y;
+
+	if(relx1 > 0 and rely1 > 0) 		quadrant1 = 1;
+	else if(relx1 < 0 and rely1 > 0)	quadrant1 = 2;
+	else if(relx1 < 0 and rely1 < 0)	quadrant1 = 3;
+	else if(relx1 > 0 and rely1 < 0)	quadrant1 = 4;
+
+	if(relx2 > 0 and rely2 > 0)			quadrant2 = 1;
+	else if(relx2 < 0 and rely2 > 0)	quadrant2 = 2;
+	else if(relx2 < 0 and rely2 < 0)	quadrant2 = 3;
+	else if(relx2 > 0 and rely2 < 0)	quadrant2 = 4;
+
+	if ( quadrant1 > quadrant2)			return true;
+	if ( quadrant2 > quadrant1)			return false;
+	if (quadrant1 == quadrant2){
+		if ((relx1 / rely1) > (relx2 / rely2)) return true;
+	}
+	return false;
+}
+
+class PointSorter{
+public:
+
+};
+
 /*
  * Main Contains Menu
  */
-int main()
-{
-    int choice;
 
-    Node base, node1, node2, node3, node4, node5;
-    vector <Node*> node1vec, node2vec, node3vec, node4vec;
-    vector<Node*> visibilityList;
+int main(){
+//	  int choice;
 
-    base.x = 0;
-    base.y = 0;
+//    Node base, node1, node2, node3, node4, node5;
+//    vector <Node*> node1vec, node2vec, node3vec, node4vec;
+//    vector<Node*> visibilityList;
 
-    node1.x = 11;
-    node1.y = 35;
-    node1.adjNode.push_back(&node4);
-    node1.adjNode.push_back(&node2);
+//    base.x = 0;
+//    base.y = 0;
+//
+//    node1.x = 11;
+//    node1.y = 35;
+//    node1.adjNode.push_back(&node4);
+//    node1.adjNode.push_back(&node2);
+//
+//
+//    node2.x = 22;
+//    node2.y = 43;
+//
+//    node2.adjNode.push_back(&node1);
+//    node2.adjNode.push_back(&node3);
+//
+//    node3.x = 34;
+//    node3.y = 42;
+//    node3.adjNode.push_back(&node2);
+//    node3.adjNode.push_back(&node4);
+//
+//
+//    node4.x = 45;
+//    node4.y = 36;
+//    node4.adjNode.push_back(&node3);
+//    node4.adjNode.push_back(&node3);
+
+	avlTree avl;
+
+	//Creating the main loop that will iterate through all nodes
+	for (int m = 0;m < nodeList.size(); m++){
 
 
-    node2.x = 22;
-    node2.y = 43;
-
-    node2.adjNode.push_back(&node1);
-    node2.adjNode.push_back(&node3);
-
-    node3.x = 34;
-    node3.y = 42;
-    node3.adjNode.push_back(&node2);
-    node3.adjNode.push_back(&node4);
+	}
 
 
-    node4.x = 45;
-    node4.y = 36;
-    node4.adjNode.push_back(&node3);
-    node4.adjNode.push_back(&node3);
-
-    avlTree avl;
-
-    while (1)
-    {
-        cout<<"\n---------------------"<<endl;
-        cout<<"AVL Tree Implementation - Batufied"<<endl;
-        cout<<"\n---------------------"<<endl;
-        cout<<"1.Insert Element into the tree -Batu"<<endl;
-        cout<<"2.Display Balanced AVL Tree"<<endl;
-        cout<<"6.Find the minimum - Batu"<<endl;
-        cout<<"7.Delete and pray v2 - Batu"<<endl;
-        cout<<"8.is it in -Batu"<<endl;
-        cout<<"9.visibility graph come on" <<endl;
-        cout<<"10.Exit"<<endl;
-        cout<<"Enter your Choice: ";
-        cin>>choice;
-        switch(choice)
-        {
-        case 1:
-            cout<<"Enter value to be inserted: ";
-            break;
-        case 2:
-            if (root == NULL)
-            {
-                cout<<"Tree is Empty"<<endl;
-                continue;
-            }
-            cout<<"Balanced AVL Tree:"<<endl;
-            avl.display(root, 1);
-            break;
-        case 6:
-            cout<<"Minimum:"<<endl;
-            int x;
-            x = avl.findMin(root)->node->x;
-            cout << x;
-            cout<<endl;
-            break;
-        case 7:
-            cout<<"Enter value to be deleted: ";
-
-            root = avl.delet(root, &base, &node2);
-            root = avl.delet(root, &base, &node3);
-            root = avl.delet(root, &base, &node4);
-            root = avl.delet(root, &base, &node1);
-            break;
-        case 8:
-            avl.isIn(root, &node1);
-            avl.isIn(root, &node2);
-            avl.isIn(root, &node3);
-            avl.isIn(root, &node4);
-            cout << "No crushes" << endl;
-            break;
-        case 9:
-        	avl.isVisible(root, &visibilityList, &base, &node1);
-        	cout << visibilityList[0]->x;
-        	break;
-        case 10:
-            exit(1);
-            break;
-        default:
-            cout<<"Wrong Choice"<<endl;
-        }
-    }
+//    while (1)
+//    {
+//        cout<<"\n---------------------"<<endl;
+//        cout<<"AVL Tree Implementation - Batufied"<<endl;
+//        cout<<"\n---------------------"<<endl;
+//        cout<<"1.Insert Element into the tree -Batu"<<endl;
+//        cout<<"2.Display Balanced AVL Tree"<<endl;
+//        cout<<"6.Find the minimum - Batu"<<endl;
+//        cout<<"7.Delete and pray v2 - Batu"<<endl;
+//        cout<<"8.is it in -Batu"<<endl;
+//        cout<<"9.visibility graph come on" <<endl;
+//        cout<<"10.Exit"<<endl;
+//        cout<<"Enter your Choice: ";
+//        cin>>choice;
+//        switch(choice)
+//        {
+//        case 1:
+//            cout<<"Enter value to be inserted: ";
+//            break;
+//        case 2:
+//            if (root == NULL)
+//            {
+//                cout<<"Tree is Empty"<<endl;
+//                continue;
+//            }
+//            cout<<"Balanced AVL Tree:"<<endl;
+//            avl.display(root, 1);
+//            break;
+//        case 6:
+//            cout<<"Minimum:"<<endl;
+//            int x;
+//            x = avl.findMin(root)->node->x;
+//            cout << x;
+//            cout<<endl;
+//            break;
+//        case 7:
+//            cout<<"Enter value to be deleted: ";
+//
+//            root = avl.delet(root, &base, &node2);
+//            root = avl.delet(root, &base, &node3);
+//            root = avl.delet(root, &base, &node4);
+//            root = avl.delet(root, &base, &node1);
+//            break;
+//        case 8:
+//            avl.isIn(root, &node1);
+//            avl.isIn(root, &node2);
+//            avl.isIn(root, &node3);
+//            avl.isIn(root, &node4);
+//            cout << "No crushes" << endl;
+//            break;
+//        case 9:
+//        	avl.isVisible(root, &visibilityList, &base, &node1);
+//        	cout << visibilityList[0]->x;
+//        	break;
+//        case 10:
+//            exit(1);
+//            break;
+//        default:
+//            cout<<"Wrong Choice"<<endl;
+//        }
+//    }
     return 0;
 }
 
