@@ -2,7 +2,7 @@
  * buildVGraph.cpp
  *
  *  Created on: 13 May 2014
- *      Author: Asyrique
+ *      Author: Asyrique/Batu
  */
 
 /*
@@ -22,6 +22,7 @@
 #include<cmath>
 #define pow2(n) (1 << (n))
 using namespace std;
+
 
 /*
  * Node Declaration
@@ -64,13 +65,14 @@ class avlTree{
         void preorder(avl_node *);
         void postorder(avl_node *);
         void isVisible(avl_node*, vector<Node*>*, Node*, Node*);
-        bool isIn(avl_node*, Node*);
-        avl_node* delet(avl_node*,Node*,Node*);
+        bool isIn(avl_node*, vector<Node*>);
+        avl_node* delet(avl_node*,Node*,vector<Node*>);
         avlTree()
         {
             root = NULL;
         }
 };
+
 
 bool compareAngleBigger(Node* base, Node* node1, Node* node2){
 
@@ -99,6 +101,12 @@ bool compareAngleBigger(Node* base, Node* node1, Node* node2){
 	return false;
 }
 
+/*
+ * Main Contains Menu
+ */
+int main()
+{
+
 class PointSorter{
 public:
 
@@ -108,7 +116,7 @@ public:
  * Main Contains Menu
  */
 
-int main(){
+
 //	  int choice;
 
 //    Node base, node1, node2, node3, node4, node5;
@@ -145,10 +153,7 @@ int main(){
 
 	//Creating the main loop that will iterate through all nodes
 	for (int m = 0;m < nodeList.size(); m++){
-
-
 	}
-
 
 //    while (1)
 //    {
@@ -187,7 +192,6 @@ int main(){
 //            break;
 //        case 7:
 //            cout<<"Enter value to be deleted: ";
-//
 //            root = avl.delet(root, &base, &node2);
 //            root = avl.delet(root, &base, &node3);
 //            root = avl.delet(root, &base, &node4);
@@ -211,7 +215,7 @@ int main(){
 //            cout<<"Wrong Choice"<<endl;
 //        }
 //    }
-    return 0;
+	return 0;
 }
 
 
@@ -254,20 +258,44 @@ bool compareDistanceEdge(Node* base,  vector<Node*> edge1, vector<Node*> edge2 )
 
 
 void avlTree::isVisible(avl_node* root, vector<Node*>* visibilityVector, Node* base, Node* target){
-	if (this->findMin(root)->node == target){
-		visibilityVector->push_back(target);
-	} else if(isIn(root, target)) {
-	    this->delet(root, base, target);
-	    if (this->findMin(root)->node == target){
-	    	visibilityVector->push_back(target);
-	    }
-	} else {
-		this->insert(root, base, target);
+
+
+	vector<Node*> firstEdge, secondEdge;
+	firstEdge.push_back(target);
+	firstEdge.push_back(target->adjNode[0]);
+
+	secondEdge.push_back(target);
+	secondEdge.push_back(target->adjNode[1]);
+
+	if (this->findMin(root) == NULL){
+		root = this->insert(root, base, firstEdge);
+		this->display(root,1);
+		root = this->insert(root, base, secondEdge);
+		this->display(root,1);
 		if (this->findMin(root)->node == target){
 	    	visibilityVector->push_back(target);
 	}
-
-}}
+	if ((this->findMin(root)->edge == firstEdge) or (this->findMin(root)->edge == secondEdge)){
+		visibilityVector->push_back(target);
+	} else if(isIn(root, firstEdge)) {
+	   root = this->delet(root, base, firstEdge);
+	   this->display(root,1);
+	    if (this->findMin(root)->edge == firstEdge){
+	    	visibilityVector->push_back(target);
+	    }
+	} else if(isIn(root, secondEdge)){
+	    root = this->delet(root, base, secondEdge);
+	    this->display(root,1);
+	    if (this->findMin(root)->edge == secondEdge){
+	    	visibilityVector->push_back(target);
+	}else {
+		root = this->insert(root, base, firstEdge);
+		this->display(root,1);
+		root = this->insert(root, base, secondEdge);
+		this->display(root,1);
+		if (this->findMin(root)->node == target){
+	    	visibilityVector->push_back(target);
+}}}}}
 
 /*
  * Height of AVL Tree
@@ -375,6 +403,7 @@ avl_node *avlTree::balance(avl_node *temp)
 ///////////////////////////////////////////////////////////////////////////////
 avl_node *avlTree::insert(avl_node *root, Node* base, vector<Node*> edge)
 {
+
     if (root == NULL)
     {
         root = new avl_node;
@@ -396,30 +425,6 @@ avl_node *avlTree::insert(avl_node *root, Node* base, vector<Node*> edge)
     }
     return root;
 }
-
-//avl_node *avlTree::insert(avl_node *root, int value)
-//{
-//    if (root == NULL)
-//    {
-//        root = new avl_node;
-//        root->data = value;
-//        root->left = NULL;
-//        root->right = NULL;
-//        return root;
-//    }
-//    else if (value < root->data)
-//    {
-//        root->left = insert(root->left, value);
-//        root = balance (root);
-//    }
-//    else if (value >= root->data)
-//    {
-//        root->right = insert(root->right, value);
-//        root = balance (root);
-//    }
-//    return root;
-//}
-
 
 // Finding the Smallest
 avl_node* avlTree::findMin(avl_node* root)
@@ -454,14 +459,15 @@ void avlTree::display(avl_node *ptr, int level)
         cout<<"Root -> ";
         for (i = 0; i < level && ptr != root; i++)
             cout<<"        ";
-        cout<<ptr->node->x;
+        cout<<ptr->edge[0]->x;
+        cout<<ptr->edge[0]->y;
         display(ptr->left, level + 1);
     }
 }
 
-bool avlTree::isIn(avl_node* root, Node* target){
+bool avlTree::isIn(avl_node* root, vector<Node*> target){
 	cout << "Girdik isine";
-	if (root->node == target){
+	if (root->edge == target){
 		cout << "Vallahi burada." << endl;
 		return true;
 
@@ -475,16 +481,15 @@ bool avlTree::isIn(avl_node* root, Node* target){
 	}
 	return false;
 }
-avl_node* avlTree::delet(avl_node* root, Node* base,  Node* node)
+avl_node* avlTree::delet(avl_node* root, Node* base,  vector<Node*> edge)
 {
     // STEP 1: PERFORM STANDARD BST DELETE
 
-	cout << node;
     if (root == NULL)
         return root;
     // If the key to be deleted is smaller than the root's key,
     // then it lies in left subtree
-    if ( node == root->node)
+    if ( edge == root->edge)
     {
         // node with only one child or no child
         if( (root->left == NULL) || (root->right == NULL) )
@@ -509,23 +514,21 @@ avl_node* avlTree::delet(avl_node* root, Node* base,  Node* node)
             struct avl_node* temp = findMin(root->right);
 
             // Copy the inorder successor's data to this node
-            root->node = temp->node;
+            root->edge = temp->edge;
 
             // Delete the inorder successor
-            root->right = delet(root->right, base ,temp->node);
+            root->right = delet(root->right, base ,temp->edge);
         }
     }
     // If the key to be deleted is greater than the root's key,
     // then it lies in right subtree
-    else if(not( compareDistanceBiggerNode(base, root->node, node ))){
-        root->right = delet(root->right, base, node);
-        cout << "Buraya kadar geldik";
+    else if(not( compareDistanceEdge(base, root->edge, edge ))){
+        root->right = delet(root->right, base, edge);
     }
     // if key is same as root's key, then This is the node
     // to be deleted
-    else if (( compareDistanceBiggerNode(base, root->node, node ))){
-        root->left = delet(root->left, base, node);
-        cout << "Buraya kadar geldik left compare distance çalýþtý ";
+    else if (( compareDistanceEdge(base, root->edge, edge ))){
+        root->left = delet(root->left, base, edge);
     }
 
     // If the tree had only one node then return
