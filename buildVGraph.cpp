@@ -2,7 +2,7 @@
  * buildVGraph.cpp
  *
  *  Created on: 13 May 2014
- *      Author: Asyrique
+ *      Author: Asyrique/Batu
  */
 
 /*
@@ -17,6 +17,8 @@
 #define pow2(n) (1 << (n))
 using namespace std;
 
+
+
 bool compareAngleBigger(	double xbase, double ybase,
 							double x1,    double y1,
 							double x2,    double y2)
@@ -28,21 +30,21 @@ bool compareAngleBigger(	double xbase, double ybase,
 	rely1 = y1 - ybase;
 	rely2 = y2 - ybase;
 
-		 if(relx1 > 0 and rely1 > 0) {quadrant1 = 1;}
-	else if(relx1 < 0 and rely1 > 0) {quadrant1 = 2;}
-	else if(relx1 < 0 and rely1 < 0) {quadrant1 = 3;}
-	else if(relx1 > 0 and rely1 < 0) {quadrant1 = 4;}
+		 if(relx1 > 0 and rely1 > 0) quadrant1 = 1;
+	else if(relx1 < 0 and rely1 > 0) quadrant1 = 2;
+	else if(relx1 < 0 and rely1 < 0) quadrant1 = 3;
+	else if(relx1 > 0 and rely1 < 0) quadrant1 = 4;
 
-		 if(relx2 > 0 and rely2 > 0) {quadrant2 = 1;}
-	else if(relx2 < 0 and rely2 > 0) {quadrant2 = 2;}
-	else if(relx2 < 0 and rely2 < 0) {quadrant2 = 3;}
-	else if(relx2 > 0 and rely2 < 0) {quadrant2 = 4;}
+		 if(relx2 > 0 and rely2 > 0) quadrant2 = 1;
+	else if(relx2 < 0 and rely2 > 0) quadrant2 = 2;
+	else if(relx2 < 0 and rely2 < 0) quadrant2 = 3;
+	else if(relx2 > 0 and rely2 < 0) quadrant2 = 4;
 
-	if ( quadrant1 > quadrant2)	{ return true  ;}
-	if ( quadrant2 > quadrant1)	{ return false ;}
+	if ( quadrant1 > quadrant2)	 return true  ;
+	if ( quadrant2 > quadrant1)	 return false ;
 	if (quadrant1 == quadrant2){
-			 if ((relx1 / rely1) > (relx2 / rely2))  { return true  ;}
-		else if ((relx1 / rely1) < (relx2 / rely2))  { return false ;}
+			 if ((relx1 / rely1) > (relx2 / rely2))   return true  ;
+		else if ((relx1 / rely1) < (relx2 / rely2))   return false ;
 
 	}
 }
@@ -105,35 +107,46 @@ int main()
     int choice;
 
     Node base, node1, node2, node3, node4, node5;
-    vector <Node*> node1vec, node2vec, node3vec, node4vec;
+    vector <Node*> edge1, edge2, edge3, edge4;
     vector<Node*> visibilityList;
 
     base.x = 0;
     base.y = 0;
 
-    node1.x = 11;
-    node1.y = 35;
+    node1.x = 1;
+    node1.y = 3;
     node1.adjNode.push_back(&node4);
     node1.adjNode.push_back(&node2);
 
 
-    node2.x = 22;
-    node2.y = 43;
+    node2.x = 2;
+    node2.y = 4;
 
     node2.adjNode.push_back(&node1);
     node2.adjNode.push_back(&node3);
 
-    node3.x = 34;
-    node3.y = 42;
+    node3.x = 3;
+    node3.y = 4;
     node3.adjNode.push_back(&node2);
     node3.adjNode.push_back(&node4);
 
 
-    node4.x = 45;
-    node4.y = 36;
+    node4.x = 4;
+    node4.y = 3;
     node4.adjNode.push_back(&node3);
-    node4.adjNode.push_back(&node3);
+    node4.adjNode.push_back(&node1);
 
+    edge1.push_back(&node1);
+    edge1.push_back(&node2);
+
+    edge2.push_back(&node2);
+    edge2.push_back(&node3);
+
+    edge3.push_back(&node3);
+    edge3.push_back(&node4);
+
+    edge4.push_back(&node4);
+    edge4.push_back(&node1);
     avlTree avl;
 
     while (1)
@@ -153,7 +166,11 @@ int main()
         switch(choice)
         {
         case 1:
-            cout<<"Enter value to be inserted: ";
+            cout<<"Enter value to be inserte11d: ";
+            root = avl.insert(root, &base, edge1);
+            root = avl.insert(root, &base, edge2);
+            root = avl.insert(root, &base, edge3);
+            root = avl.insert(root, &base, edge4);
             break;
         case 2:
             if (root == NULL)
@@ -187,8 +204,13 @@ int main()
             cout << "No crushes" << endl;
             break;
         case 9:
+        	avl.isVisible(root, &visibilityList, &base, &node4);
+        	avl.isVisible(root, &visibilityList, &base, &node3);
+        	avl.isVisible(root, &visibilityList, &base, &node2);
         	avl.isVisible(root, &visibilityList, &base, &node1);
+
         	cout << visibilityList[0]->x;
+        	cout << visibilityList[1]->x;
         	break;
         case 10:
             exit(1);
@@ -240,20 +262,44 @@ bool compareDistanceEdge(Node* base,  vector<Node*> edge1, vector<Node*> edge2 )
 
 
 void avlTree::isVisible(avl_node* root, vector<Node*>* visibilityVector, Node* base, Node* target){
-	if (this->findMin(root)->node == target){
-		visibilityVector->push_back(target);
-	} else if(isIn(root, target)) {
-	    this->delet(root, base, target);
-	    if (this->findMin(root)->node == target){
-	    	visibilityVector->push_back(target);
-	    }
-	} else {
-		this->insert(root, base, target);
+
+
+	vector<Node*> firstEdge, secondEdge;
+	firstEdge.push_back(target);
+	firstEdge.push_back(target->adjNode[0]);
+
+	secondEdge.push_back(target);
+	secondEdge.push_back(target->adjNode[1]);
+
+	if (this->findMin(root) == NULL){
+		root = this->insert(root, base, firstEdge);
+		this->display(root,1);
+		root = this->insert(root, base, secondEdge);
+		this->display(root,1);
 		if (this->findMin(root)->node == target){
 	    	visibilityVector->push_back(target);
 	}
-
-}}
+	if ((this->findMin(root)->edge == firstEdge) or (this->findMin(root)->edge == secondEdge)){
+		visibilityVector->push_back(target);
+	} else if(isIn(root, firstEdge)) {
+	   root = this->delet(root, base, firstEdge);
+	   this->display(root,1);
+	    if (this->findMin(root)->edge == firstEdge){
+	    	visibilityVector->push_back(target);
+	    }
+	} else if(isIn(root, secondEdge)){
+	    root = this->delet(root, base, secondEdge);
+	    this->display(root,1);
+	    if (this->findMin(root)->edge == secondEdge){
+	    	visibilityVector->push_back(target);
+	}else {
+		root = this->insert(root, base, firstEdge);
+		this->display(root,1);
+		root = this->insert(root, base, secondEdge);
+		this->display(root,1);
+		if (this->findMin(root)->node == target){
+	    	visibilityVector->push_back(target);
+}}}}}
 
 /*
  * Height of AVL Tree
@@ -361,6 +407,7 @@ avl_node *avlTree::balance(avl_node *temp)
 ///////////////////////////////////////////////////////////////////////////////
 avl_node *avlTree::insert(avl_node *root, Node* base, vector<Node*> edge)
 {
+
     if (root == NULL)
     {
         root = new avl_node;
@@ -382,30 +429,6 @@ avl_node *avlTree::insert(avl_node *root, Node* base, vector<Node*> edge)
     }
     return root;
 }
-
-//avl_node *avlTree::insert(avl_node *root, int value)
-//{
-//    if (root == NULL)
-//    {
-//        root = new avl_node;
-//        root->data = value;
-//        root->left = NULL;
-//        root->right = NULL;
-//        return root;
-//    }
-//    else if (value < root->data)
-//    {
-//        root->left = insert(root->left, value);
-//        root = balance (root);
-//    }
-//    else if (value >= root->data)
-//    {
-//        root->right = insert(root->right, value);
-//        root = balance (root);
-//    }
-//    return root;
-//}
-
 
 // Finding the Smallest
 avl_node* avlTree::findMin(avl_node* root)
@@ -440,7 +463,8 @@ void avlTree::display(avl_node *ptr, int level)
         cout<<"Root -> ";
         for (i = 0; i < level && ptr != root; i++)
             cout<<"        ";
-        cout<<ptr->node->x;
+        cout<<ptr->edge[0]->x;
+        cout<<ptr->edge[0]->y;
         display(ptr->left, level + 1);
     }
 }
@@ -465,7 +489,6 @@ avl_node* avlTree::delet(avl_node* root, Node* base,  vector<Node*> edge)
 {
     // STEP 1: PERFORM STANDARD BST DELETE
 
-	cout << edge;
     if (root == NULL)
         return root;
     // If the key to be deleted is smaller than the root's key,
@@ -505,13 +528,11 @@ avl_node* avlTree::delet(avl_node* root, Node* base,  vector<Node*> edge)
     // then it lies in right subtree
     else if(not( compareDistanceEdge(base, root->edge, edge ))){
         root->right = delet(root->right, base, edge);
-        cout << "Buraya kadar geldik";
     }
     // if key is same as root's key, then This is the node
     // to be deleted
     else if (( compareDistanceEdge(base, root->edge, edge ))){
         root->left = delet(root->left, base, edge);
-        cout << "Buraya kadar geldik left compare distance çalýþtý ";
     }
 
     // If the tree had only one node then return
